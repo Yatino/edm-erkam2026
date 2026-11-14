@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Bukti Fisik EDM & RKAM — MI Tarbiyatul 'Ulum Tirtomoyo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Kustomisasi Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Gaya Cetak Berita Acara Supervisi Pengawas */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printArea, #printArea * {
+                visibility: visible;
+            }
+            #printArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-100 selection:text-emerald-900">
+
+    <!-- Top Notification / Toast Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Header / Hero Madrasah -->
+    <header class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-900 text-white shadow-lg border-b border-emerald-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <!-- Top Badge Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-5 mb-6 border-b border-emerald-800/70">
+                <div class="flex items-center gap-2.5">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        PORTAL VERIFIKASI PENGAWAS MADRASAH
+                    </span>
+                    <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-400/20 text-amber-200 border border-amber-400/30">
+                        Terakreditasi A
+                    </span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="openPrintReportModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
+                        <i data-lucide="printer" class="w-4 h-4"></i>
+                        <span>Laporan Hasil Supervisi</span>
+                    </button>
+                    <a href="https://drive.google.com/drive/folders/1eMz1pjjbRXEYnKMr4XTMk9sR6ZR2oXlL?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-400 hover:bg-amber-300 text-emerald-950 shadow-sm transition">
+                        <i data-lucide="folder-open" class="w-4 h-4"></i>
+                        <span>Buka Folder Utama Drive</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Identitas Madrasah & Info Supervisi -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-8 flex items-start gap-4 sm:gap-5">
+                    <!-- Emblem Madrasah -->
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-300 p-0.5 shadow-lg shrink-0">
+                        <div class="w-full h-full bg-emerald-950 rounded-[14px] flex items-center justify-center">
+                            <i data-lucide="landmark" class="w-8 h-8 text-emerald-300"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-emerald-300 mb-1">
+                            Evaluasi Diri Madrasah (EDM) &amp; e-RKAM Tahun 2026
+                        </p>
+                        <h1 class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                            MI Tarbiyatul 'Ulum Tirtomoyo
+                        </h1>
+                        <div class="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs sm:text-sm text-emerald-100/90">
+                            <span class="inline-flex items-center gap-1.5">
+                                <i data-lucide="hash" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                NSM: <strong class="font-semibold text-white">111233050058</strong>
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <i data-lucide="building-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                NPSN: <strong class="font-semibold text-white">60710965</strong>
+                            </span>
+                            <span class="inline-flex items-center gap-1.5">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                Desa Tirtomoyo, Kec. Poncowarno, Kab. Kebumen
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kartu Kepala Madrasah & Pengawas -->
+                <div class="lg:col-span-4 bg-emerald-900/60 backdrop-blur-sm border border-emerald-700/60 rounded-2xl p-4">
+                    <div class="flex items-center justify-between text-xs text-emerald-300 mb-2">
+                        <span>Informasi Pimpinan &amp; Supervisi</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-800 text-emerald-200 font-medium">Tahun 2026</span>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-emerald-200/80">Kepala Madrasah:</span>
+                            <span class="font-semibold text-white">Sururiyah, S.Pd.I</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <label for="supervisorNameInput" class="text-emerald-200/80 shrink-0">Pengawas Peneliti:</label>
+                            <input type="text" id="supervisorNameInput" placeholder="Ketik Nama Pengawas..." 
+                                class="w-44 sm:w-48 px-2.5 py-1 text-xs rounded-lg bg-emerald-950/80 border border-emerald-600/60 text-white placeholder-emerald-400/60 focus:outline-none focus:border-amber-400">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Dashboard Ringkasan & Statistik Verifikasi -->
+        <section aria-label="Ringkasan Statistik EDM">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Card 1: Total Indikator EDM -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Indikator EDM</p>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span id="statTotal" class="text-3xl font-display font-extrabold text-slate-900">23</span>
+                            <span class="text-xs font-medium text-slate-500">Butir (Aspek A–D)</span>
+                        </div>
+                        <p class="mt-1.5 text-xs text-emerald-700 font-medium flex items-center gap-1">
+                            <i data-lucide="folder-check" class="w-3.5 h-3.5"></i> 4 Folder Utama Drive Aktif
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                        <i data-lucide="layers" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2: Dokumen Terindeks Langsung -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Dokumen PDF Terindeks</p>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span id="statIndexed" class="text-3xl font-display font-extrabold text-blue-600">5</span>
+                            <span class="text-xs font-medium text-slate-500">File Siap Pratinjau</span>
+                        </div>
+                        <p class="mt-1.5 text-xs text-slate-500">
+                            Aspek D (D.1 – D.5) + Folder A–C
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3: Terverifikasi Pengawas -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Terverifikasi Pengawas</p>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span id="statVerified" class="text-3xl font-display font-extrabold text-emerald-600">0</span>
+                            <span id="statVerifiedPercent" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">0%</span>
+                        </div>
+                        <div class="mt-2 w-36 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                            <div id="statProgressBar" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Perlu Catatan / Revisi -->
+                <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Perlu Catatan / Revisi</p>
+                        <div class="mt-1 flex items-baseline gap-2">
+                            <span id="statRevision" class="text-3xl font-display font-extrabold text-amber-600">0</span>
+                            <span class="text-xs font-medium text-slate-500">Temuan Supervisi</span>
+                        </div>
+                        <p class="mt-1.5 text-xs text-slate-500">
+                            Tersimpan otomatis di browser
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                        <i data-lucide="clipboard-edit" class="w-6 h-6"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Akses Cepat 4 Folder Sub-Aspek Google Drive -->
+        <section aria-label="Folder Aspek EDM Google Drive">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                <div>
+                    <h2 class="font-display text-lg font-bold text-slate-900">Direktori Folder Google Drive Per Aspek EDM</h2>
+                    <p class="text-xs sm:text-sm text-slate-500">Klik kartu aspek untuk memfilter instrumen atau buka langsung folder Google Drive terkait.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="aspectFolderCards">
+                <!-- Diisi dinamis oleh JS -->
+            </div>
+        </section>
+
+        <!-- Sorotan Dokumen Terindeks (Aspek D.1 - D.5) -->
+        <section class="bg-gradient-to-r from-emerald-50 via-teal-50/70 to-slate-50 border border-emerald-200/80 rounded-2xl p-5 sm:p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                        <i data-lucide="file-search" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-display text-base sm:text-lg font-bold text-slate-900">Dokumen Terindeks Siap Pratinjau Langsung (Aspek D)</h2>
+                            <span class="px-2 py-0.5 text-[11px] font-bold uppercase rounded-full bg-emerald-600 text-white">5 PDF Terverifikasi</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                            Dokumen berikut telah terindeks langsung dari Folder D Google Drive dan dapat dibaca isinya tanpa meninggalkan portal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5" id="indexedDocsHighlight">
+                <!-- Diisi dinamis oleh JS -->
+            </div>
+        </section>
+
+        <!-- Filter, Pencarian & Tabel/Kartu Instrumen EDM -->
+        <section aria-label="Instrumen dan Bukti Fisik EDM">
+            <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
+                <!-- Control Bar -->
+                <div class="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/70 space-y-4">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <!-- Tabs Aspek -->
+                        <div class="flex flex-wrap items-center gap-1.5" role="tablist">
+                            <button onclick="setAspectFilter('ALL')" data-aspect="ALL" class="aspect-tab active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-700 text-white shadow-sm">
+                                Semua Aspek (23)
+                            </button>
+                            <button onclick="setAspectFilter('A')" data-aspect="A" class="aspect-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                                Aspek A (Kedisiplinan)
+                            </button>
+                            <button onclick="setAspectFilter('B')" data-aspect="B" class="aspect-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                                Aspek B (Pengembangan GTK)
+                            </button>
+                            <button onclick="setAspectFilter('C')" data-aspect="C" class="aspect-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                                Aspek C (Pembelajaran)
+                            </button>
+                            <button onclick="setAspectFilter('D')" data-aspect="D" class="aspect-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200">
+                                Aspek D (Sarana &amp; Buku)
+                            </button>
+                        </div>
+
+                        <!-- Action Reset / Quick Verify -->
+                        <div class="flex items-center gap-2 self-end lg:self-auto">
+                            <button onclick="resetAllVerification()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 border border-slate-200 bg-white transition" title="Atur ulang status verifikasi">
+                                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                                <span>Reset Checklist</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search & Status Filter -->
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                        <div class="sm:col-span-8 relative">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="searchInput" oninput="renderInstruments()" 
+                                placeholder="Cari kode butir (misal: D.2), judul indikator, nama dokumen, atau nama guru (misal: Sururiyah, Yatino)..."
+                                class="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-600">
+                        </div>
+                        <div class="sm:col-span-4">
+                            <select id="statusFilter" onchange="renderInstruments()" 
+                                class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-600 font-medium text-slate-700">
+                                <option value="ALL">Status Verifikasi: Semua</option>
+                                <option value="VERIFIED">Terverifikasi Sesuai</option>
+                                <option value="PENDING">Siap Diperiksa (Belum Dicek)</option>
+                                <option value="REVISION">Perlu Catatan / Revisi</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Instrumen -->
+                <div id="instrumentsContainer" class="divide-y divide-slate-200">
+                    <!-- Diisi dinamis oleh JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <p class="font-semibold text-slate-700">MI Tarbiyatul 'Ulum Tirtomoyo — Kec. Poncowarno, Kab. Kebumen</p>
+                <p class="mt-0.5">Portal Digital Bukti Fisik Evaluasi Diri Madrasah (EDM) &amp; e-RKAM Tahun Anggaran 2026</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://drive.google.com/drive/folders/1eMz1pjjbRXEYnKMr4XTMk9sR6ZR2oXlL?usp=drive_link" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:text-emerald-800 font-semibold inline-flex items-center gap-1">
+                    <span>Repositori Google Drive</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: Pratinjau Dokumen / Folder & Panel Verifikasi Pengawas -->
+    <div id="previewModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modalTitle" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity" onclick="closePreviewModal()"></div>
+
+        <!-- Modal Panel -->
+        <div class="fixed inset-0 z-10 overflow-y-auto p-2 sm:p-4 md:p-6 flex items-center justify-center">
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-6xl h-[92vh] flex flex-col overflow-hidden">
+                <!-- Modal Header -->
+                <div class="px-4 sm:px-6 py-3.5 bg-slate-900 text-white flex items-center justify-between gap-4 shrink-0">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span id="modalCodeBadge" class="px-2.5 py-1 rounded-lg bg-emerald-500 text-emerald-950 font-display font-extrabold text-xs shrink-0">D.1</span>
+                        <div class="min-w-0">
+                            <h3 id="modalTitle" class="font-display font-bold text-sm sm:text-base truncate">Judul Dokumen</h3>
+                            <p id="modalSubtitle" class="text-xs text-slate-300 truncate">Subjudul indikator</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <a id="modalExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">Buka di Google Drive</span>
+                        </a>
+                        <button onclick="closePreviewModal()" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition" aria-label="Tutup Modal">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Body: Split View (Iframe Viewer + Ringkasan & Verifikasi Pengawas) -->
+                <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+                    <!-- Left: Document / Folder Preview Frame -->
+                    <div class="lg:col-span-8 bg-slate-100 flex flex-col h-[48vh] lg:h-full border-b lg:border-b-0 lg:border-r border-slate-200 relative">
+                        <div id="iframeLoadingOverlay" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-100 text-slate-500 pointer-events-none">
+                            <i data-lucide="loader-2" class="w-8 h-8 animate-spin text-emerald-600 mb-2"></i>
+                            <p class="text-xs font-medium">Memuat pratinjau Google Drive...</p>
+                        </div>
+                        <iframe id="drivePreviewIframe" src="" class="w-full h-full border-0 relative z-10" allow="autoplay"></iframe>
+                    </div>
+
+                    <!-- Right: Metadata, Ringkasan Isi & Form Verifikasi Pengawas -->
+                    <div class="lg:col-span-4 p-4 sm:p-5 overflow-y-auto bg-white flex flex-col justify-between space-y-5">
+                        <div class="space-y-4">
+                            <!-- Info Bukti Fisik -->
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Deskripsi Bukti Fisik</span>
+                                <p id="modalEvidenceDesc" class="mt-1 text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+                            </div>
+
+                            <!-- Ringkasan Isi Terindeks (Jika ada) -->
+                            <div id="modalSummaryBox" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/90">
+                                <div class="flex items-center gap-1.5 text-xs font-bold text-slate-800 mb-1.5">
+                                    <i data-lucide="file-check-2" class="w-4 h-4 text-emerald-600"></i>
+                                    <span>Ringkasan Data Terindeks</span>
+                                </div>
+                                <p id="modalIndexedSummary" class="text-xs text-slate-600 leading-relaxed"></p>
+                            </div>
+
+                            <!-- Panel Verifikasi Pengawas -->
+                            <div class="pt-3 border-t border-slate-200">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
+                                    Status Pemeriksaan Pengawas
+                                </label>
+                                <div class="grid grid-cols-1 gap-2">
+                                    <button type="button" onclick="setModalStatus('VERIFIED')" id="btnStatusVerified" class="status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition">
+                                        <span class="flex items-center gap-2">
+                                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                                            Terverifikasi Sesuai
+                                        </span>
+                                        <span class="indicator-dot w-2.5 h-2.5 rounded-full"></span>
+                                    </button>
+                                    <button type="button" onclick="setModalStatus('REVISION')" id="btnStatusRevision" class="status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition">
+                                        <span class="flex items-center gap-2">
+                                            <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                                            Perlu Catatan / Revisi
+                                        </span>
+                                        <span class="indicator-dot w-2.5 h-2.5 rounded-full"></span>
+                                    </button>
+                                    <button type="button" onclick="setModalStatus('PENDING')" id="btnStatusPending" class="status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition">
+                                        <span class="flex items-center gap-2">
+                                            <i data-lucide="clock" class="w-4 h-4"></i>
+                                            Belum Diperiksa
+                                        </span>
+                                        <span class="indicator-dot w-2.5 h-2.5 rounded-full"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Catatan Supervisi -->
+                            <div>
+                                <label for="modalNoteTextarea" class="block text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
+                                    Catatan / Rekomendasi Pengawas
+                                </label>
+                                <textarea id="modalNoteTextarea" rows="3" placeholder="Tuliskan catatan hasil telaah bukti fisik di sini..."
+                                    class="w-full p-3 text-xs sm:text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-600"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="pt-3 border-t border-slate-200 flex items-center gap-2">
+                            <button type="button" onclick="saveModalVerification()" class="w-full py-2.5 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-xs sm:text-sm shadow-sm transition flex items-center justify-center gap-2">
+                                <i data-lucide="save" class="w-4 h-4"></i>
+                                <span>Simpan Hasil Verifikasi</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Laporan / Berita Acara Hasil Supervisi Pengawas (Print Ready) -->
+    <div id="printReportModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm no-print" onclick="closePrintReportModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto p-3 sm:p-6 flex items-center justify-center">
+            <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+                <!-- Modal Header -->
+                <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between no-print">
+                    <div class="flex items-center gap-2.5">
+                        <i data-lucide="file-spreadsheet" class="w-5 h-5 text-emerald-400"></i>
+                        <h3 class="font-display font-bold text-base">Lembar Hasil Verifikasi Bukti Fisik EDM &amp; RKAM</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition">
+                            <i data-lucide="printer" class="w-4 h-4"></i>
+                            <span>Cetak / Simpan PDF</span>
+                        </button>
+                        <button onclick="closePrintReportModal()" class="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Printable Report Content -->
+                <div id="printArea" class="p-6 sm:p-8 overflow-y-auto space-y-6 text-slate-900">
+                    <!-- Kop Laporan -->
+                    <div class="border-b-2 border-slate-900 pb-4 text-center">
+                        <p class="text-xs font-bold uppercase tracking-widest text-slate-600">Instrumen Supervisi Manajerial &amp; Verifikasi EDM / e-RKAM</p>
+                        <h2 class="text-xl font-bold uppercase mt-1">MI TARBIYATUL 'ULUM TIRTOMOYO</h2>
+                        <p class="text-xs text-slate-700 mt-0.5">NSM: 111233050058 | NPSN: 60710965 | Desa Tirtomoyo, Kec. Poncowarno, Kab. Kebumen</p>
+                    </div>
+
+                    <!-- Identitas Pemeriksaan -->
+                    <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="space-y-1">
+                            <p><span class="text-slate-500">Nama Madrasah:</span> <strong>MI Tarbiyatul 'Ulum Tirtomoyo</strong></p>
+                            <p><span class="text-slate-500">Kepala Madrasah:</span> <strong>Sururiyah, S.Pd.I</strong></p>
+                            <p><span class="text-slate-500">Status Akreditasi:</span> <strong>Terakreditasi A</strong></p>
+                        </div>
+                        <div class="space-y-1">
+                            <p><span class="text-slate-500">Pengawas Madrasah:</span> <strong id="reportSupervisorName">-</strong></p>
+                            <p><span class="text-slate-500">Tanggal Verifikasi:</span> <strong id="reportDate">-</strong></p>
+                            <p><span class="text-slate-500">Capaian Verifikasi:</span> <strong id="reportSummaryStats">0 / 23 Indikator</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Tabel Hasil Verifikasi -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs border-collapse border border-slate-300">
+                            <thead>
+                                <tr class="bg-slate-100 text-left">
+                                    <th class="border border-slate-300 px-2.5 py-2 w-14">Kode</th>
+                                    <th class="border border-slate-300 px-2.5 py-2">Aspek &amp; Indikator EDM</th>
+                                    <th class="border border-slate-300 px-2.5 py-2 w-32">Status</th>
+                                    <th class="border border-slate-300 px-2.5 py-2 w-56">Catatan Pengawas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportTableBody">
+                                <!-- Diisi dinamis -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tanda Tangan -->
+                    <div class="grid grid-cols-2 gap-8 pt-6 text-xs text-center">
+                        <div>
+                            <p>Mengetahui,</p>
+                            <p class="font-semibold">Kepala MI Tarbiyatul 'Ulum Tirtomoyo</p>
+                            <div class="h-16"></div>
+                            <p class="font-bold underline">Sururiyah, S.Pd.I</p>
+                        </div>
+                        <div>
+                            <p>Poncowarno, <span id="reportSignDate"></span></p>
+                            <p class="font-semibold">Pengawas Madrasah</p>
+                            <div class="h-16"></div>
+                            <p class="font-bold underline" id="reportSignSupervisor">............................................</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 1. DATA MASTER FOLDER & INSTRUMEN EDM MI TARBIYATUL 'ULUM TIRTOMOYO
+        // =========================================================================
+        const ASPECT_FOLDERS = [
+            {
+                id: 'A',
+                code: 'ASPEK A',
+                title: 'Kedisiplinan Warga Madrasah',
+                range: 'Indikator A.1 – A.7 (7 Butir)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                embedUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                color: 'emerald',
+                icon: 'user-check'
+            },
+            {
+                id: 'B',
+                code: 'ASPEK B',
+                title: 'Pengembangan Diri Guru & Tendik',
+                range: 'Indikator B.1 – B.4 (4 Butir)',
+                driveUrl: 'https://drive.google.com/drive/folders/1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy',
+                embedUrl: 'https://drive.google.com/embeddedfolderview?id=1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy#list',
+                color: 'blue',
+                icon: 'graduation-cap'
+            },
+            {
+                id: 'C',
+                code: 'ASPEK C',
+                title: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                range: 'Indikator C.1 – C.7 (7 Butir)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                embedUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                color: 'violet',
+                icon: 'book-open-check'
+            },
+            {
+                id: 'D',
+                code: 'ASPEK D',
+                title: 'Penyediaan Sarana Pembelajaran & Penggunaannya',
+                range: 'Indikator D.1 – D.5 (5 PDF Terindeks)',
+                driveUrl: 'https://drive.google.com/drive/folders/10zdPwYrqBZs36ZBmZSjpG5mBkXrbK5lb',
+                embedUrl: 'https://drive.google.com/embeddedfolderview?id=10zdPwYrqBZs36ZBmZSjpG5mBkXrbK5lb#list',
+                color: 'amber',
+                icon: 'library'
+            }
+        ];
+
+        const EDM_INSTRUMENTS = [
+            // ASPEK A: Kedisiplinan Warga Madrasah (A.1 - A.7)
+            {
+                code: 'A.1',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Kedisiplinan Kehadiran Peserta Didik',
+                evidence: 'Rekapitulasi daftar hadir peserta didik kelas I–VI, jurnal piket harian, dan catatan tindak lanjut ketidakhadiran siswa.',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.1)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A. Klik Pratinjau Folder untuk menelusuri berkas presensi siswa.'
+            },
+            {
+                code: 'A.2',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Kedisiplinan Kehadiran Pendidik dan Tenaga Kependidikan',
+                evidence: 'Rekapitulasi presensi/absensi bulanan guru dan tenaga kependidikan (Pusaka/finger print & daftar hadir manual).',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.2)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A. Mencakup rekap kehadiran seluruh GTK MI Tarbiyatul Ulum Tirtomoyo.'
+            },
+            {
+                code: 'A.3',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Kedisiplinan Guru Melaksanakan Pembelajaran Tepat Waktu',
+                evidence: 'Jadwal pelajaran, jurnal mengajar guru kelas/mapel, serta buku kontrol pelaksanaan KBM oleh Kepala Madrasah.',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.3)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A. Berisi jadwal pembelajaran dan jurnal pemantauan ketepatan waktu KBM.'
+            },
+            {
+                code: 'A.4',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Ketertiban dan Kepatuhan Terhadap Tata Tertib Madrasah',
+                evidence: 'Dokumen tata tertib peserta didik & GTK, buku catatan pelanggaran/pembinaan, dan dokumentasi sosialisasi tata tertib.',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.4)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A.'
+            },
+            {
+                code: 'A.5',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Budaya Religius dan Pembiasaan Karakter di Madrasah',
+                evidence: 'Program dan dokumentasi pembiasaan pagi (sholat dhuha, tadarus/hafalan juz amma, berdoa, salam, infaq Jumat).',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.5)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A.'
+            },
+            {
+                code: 'A.6',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Budaya Bersih, Sehat, dan Peduli Lingkungan Madrasah',
+                evidence: 'Jadwal piket kebersihan kelas, program UKS/madrasah sehat, dan foto kondisi lingkungan/sanitasi madrasah.',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.6)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A.'
+            },
+            {
+                code: 'A.7',
+                aspect: 'A',
+                aspectName: 'Kedisiplinan Warga Madrasah',
+                title: 'Pelaksanaan Upacara Bendera dan Peringatan Hari Besar',
+                evidence: 'Jadwal petugas upacara bendera hari Senin, daftar hadir peserta upacara, dan dokumentasi PHBN/PHBI.',
+                docName: 'Folder Bukti Fisik Aspek A (Subfolder A.7)',
+                driveUrl: 'https://drive.google.com/drive/folders/1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1q_Q8YD2ZVd8pZWFHm_syoNDDVuG1DWIL#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek A.'
+            },
+
+            // ASPEK B: Pengembangan Diri Guru & Tenaga Kependidikan (B.1 - B.4)
+            {
+                code: 'B.1',
+                aspect: 'B',
+                aspectName: 'Pengembangan Diri Guru & Tendik',
+                title: 'Keikutsertaan Kepala Madrasah dalam Kegiatan Pengembangan Diri',
+                evidence: 'Sertifikat diklat/bimtek/workshop manajerial, surat tugas, dan laporan keikutsertaan KKMI Kepala Madrasah.',
+                docName: 'Folder Bukti Fisik Aspek B (Subfolder B.1)',
+                driveUrl: 'https://drive.google.com/drive/folders/1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek B.'
+            },
+            {
+                code: 'B.2',
+                aspect: 'B',
+                aspectName: 'Pengembangan Diri Guru & Tendik',
+                title: 'Keikutsertaan Guru dalam Kegiatan KKG / MGMP / Workshop / Diklat',
+                evidence: 'Daftar rekapitulasi pelatihan/KKG guru, surat tugas, sertifikat pengembangan kompetensi, dan laporan desiminasi.',
+                docName: 'Folder Bukti Fisik Aspek B (Subfolder B.2)',
+                driveUrl: 'https://drive.google.com/drive/folders/1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek B.'
+            },
+            {
+                code: 'B.3',
+                aspect: 'B',
+                aspectName: 'Pengembangan Diri Guru & Tendik',
+                title: 'Peningkatan Kompetensi Tenaga Kependidikan (Operator / Administrasi)',
+                evidence: 'Sertifikat bimtek EMIS/e-RKAM/Simpatika/keuangan, surat tugas, dan bukti peningkatan layanan administrasi.',
+                docName: 'Folder Bukti Fisik Aspek B (Subfolder B.3)',
+                driveUrl: 'https://drive.google.com/drive/folders/1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek B.'
+            },
+            {
+                code: 'B.4',
+                aspect: 'B',
+                aspectName: 'Pengembangan Diri Guru & Tendik',
+                title: 'Pelaksanaan Program Pengembangan Keprofesian Berkelanjutan (PKB) Internal',
+                evidence: 'Notulen rapat pembinaan guru, daftar hadir IHT/komunitas belajar madrasah, dan dokumentasi kegiatan.',
+                docName: 'Folder Bukti Fisik Aspek B (Subfolder B.4)',
+                driveUrl: 'https://drive.google.com/drive/folders/1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1KwxxN9OZyaqMW1gIm1DNO06JMU2ZdVAy#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek B.'
+            },
+
+            // ASPEK C: Persiapan, Pelaksanaan & Penilaian Proses Pembelajaran (C.1 - C.7)
+            {
+                code: 'C.1',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Penyusunan Perangkat Pembelajaran (CP, TP, ATP, Prota, Promes, Modul Ajar/RPP)',
+                evidence: 'Dokumen Kurikulum Madrasah (KOM), ATP, Program Tahunan, Program Semester, dan Modul Ajar/RPP seluruh guru kelas & mapel.',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.1)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+            {
+                code: 'C.2',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Penerapan Metode Pembelajaran Aktif, Kreatif, dan Inovatif',
+                evidence: 'Skenario pembelajaran dalam Modul Ajar, dokumentasi foto/video pembelajaran aktif, serta lembar kerja peserta didik (LKPD).',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.2)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+            {
+                code: 'C.3',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Pemanfaatan Media dan Sumber Belajar Bervariasi',
+                evidence: 'Daftar pemanfaatan media pembelajaran digital/konkret, LKPD, dan bahan ajar pendamping di kelas.',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.3)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+            {
+                code: 'C.4',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Pelaksanaan Penilaian/Asesmen Formatif dan Sumatif',
+                evidence: 'Kisi-kisi soal, instrumen asesmen formatif & sumatif (STS/SAS), rubrik penilaian sikap/keterampilan, dan daftar nilai.',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.4)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+            {
+                code: 'C.5',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Analisis Hasil Penilaian serta Program Remedial dan Pengayaan',
+                evidence: 'Dokumen analisis butir soal/hasil ulangan, daftar siswa peserta remedial/pengayaan, dan bukti pelaksanaannya.',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.5)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+            {
+                code: 'C.6',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Pelaksanaan Supervisi Akademik oleh Kepala Madrasah',
+                evidence: 'Program supervisi akademik, jadwal supervisi, instrumen observasi kelas, dan catatan umpan balik Kepala Madrasah.',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.6)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+            {
+                code: 'C.7',
+                aspect: 'C',
+                aspectName: 'Persiapan, Pelaksanaan & Penilaian Pembelajaran',
+                title: 'Pelaporan Hasil Belajar Peserta Didik (RDM) kepada Orang Tua',
+                evidence: 'Rekap nilai Rapor Digital Madrasah (RDM), daftar hadir pengambilan rapor orang tua, dan catatan komunikasi wali murid.',
+                docName: 'Folder Bukti Fisik Aspek C (Subfolder C.7)',
+                driveUrl: 'https://drive.google.com/drive/folders/1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR',
+                previewUrl: 'https://drive.google.com/embeddedfolderview?id=1C1Zh7sBQYWlfaitVwGIs7YlPQQrMWTuR#list',
+                isIndexedPdf: false,
+                indexedSummary: 'Tersimpan dalam direktori Google Drive Aspek C.'
+            },
+
+            // ASPEK D: Penyediaan Sarana Pembelajaran & Penggunaannya (D.1 - D.5 TERINDEKS)
+            {
+                code: 'D.1',
+                aspect: 'D',
+                aspectName: 'Penyediaan Sarana Pembelajaran & Penggunaannya',
+                title: 'Penyediaan Buku Teks Pelajaran dan Buku Bacaan Siswa',
+                evidence: 'Daftar buku teks pelajaran utama dan buku bacaan pengayaan/perpustakaan untuk Kelas I sampai dengan Kelas VI Tahun 2026.',
+                docName: 'DAFTAR BUKU TEKS DAN BACAAN.pdf',
+                driveUrl: 'https://drive.google.com/file/d/1JP0jwJkF5eI64If3EEjIKejKCVis9DeI/view?usp=drivesdk',
+                previewUrl: 'https://drive.google.com/file/d/1JP0jwJkF5eI64If3EEjIKejKCVis9DeI/preview',
+                isIndexedPdf: true,
+                indexedSummary: 'Memuat inventaris lengkap judul buku teks pelajaran dan buku bacaan kelas I–VI MI Tarbiyatul Ulum Tirtomoyo Tahun 2026 beserta jumlah eksemplar dan kondisi kelayakan.'
+            },
+            {
+                code: 'D.2',
+                aspect: 'D',
+                aspectName: 'Penyediaan Sarana Pembelajaran & Penggunaannya',
+                title: 'Pemanfaatan Alat Bantu / Media Pembelajaran oleh Guru',
+                evidence: 'Rekapitulasi penggunaan alat peraga/media pembelajaran oleh 11 guru periode Januari–Juni dan Juli–Oktober 2026.',
+                docName: 'DAFTAR GURU DAN ALAT BANTU PEMBELAJARAN(2).pdf',
+                driveUrl: 'https://drive.google.com/file/d/14wrZbq_O_HUbWCfMVrp0NJHc8R5cPWID/view?usp=drivesdk',
+                previewUrl: 'https://drive.google.com/file/d/14wrZbq_O_HUbWCfMVrp0NJHc8R5cPWID/preview',
+                isIndexedPdf: true,
+                indexedSummary: 'Rekap pemanfaatan alat bantu mengajar periode Jan–Jun & Jul–Okt 2026 oleh: Sururiyah, S.Pd.I; Yatino, S.Pd.I; Muslihudin, S.Pd.I; Amad Musafa, S.Pd; Amad Shoffanuddin, S.Pd.I; Anggun Larasati Hasyim, S.Pd; Akhmad Mukhsin, S.Pd; Yuliatin, S.Pd.I; Nurmalikhah, S.Pd.I; Dewi Sangadati Rohmah, S.Pd; dan Agus Faesol, S.Pd.I.'
+            },
+            {
+                code: 'D.3',
+                aspect: 'D',
+                aspectName: 'Penyediaan Sarana Pembelajaran & Penggunaannya',
+                title: 'Ketersediaan Alat Peraga dan Praktek Laboratorium Pembelajaran',
+                evidence: 'Daftar inventaris alat peraga dan sarana praktik mata pelajaran IPAS, IPS, Bahasa Indonesia, Matematika, PJOK, SBdP, dan BTQ Tahun 2026.',
+                docName: 'DAFTAR ALAT PERAGA_PRAKTEK LABORATORIUM(1).pdf',
+                driveUrl: 'https://drive.google.com/file/d/1Dnr65nSjoIRz7fBNQ0m6JlnnmIm8gWfL/view?usp=drivesdk',
+                previewUrl: 'https://drive.google.com/file/d/1Dnr65nSjoIRz7fBNQ0m6JlnnmIm8gWfL/preview',
+                isIndexedPdf: true,
+                indexedSummary: 'Memuat daftar inventaris alat peraga dan alat praktik laboratorium madrasah Tahun 2026 mencakup mata pelajaran IPAS, IPS, Bahasa Indonesia, Matematika, PJOK, SBdP, serta Baca Tulis Al-Qur\'an (BTQ).'
+            },
+            {
+                code: 'D.4',
+                aspect: 'D',
+                aspectName: 'Penyediaan Sarana Pembelajaran & Penggunaannya',
+                title: 'Ketersediaan Buku Pegangan Guru (Buku Teks Pembelajaran Guru)',
+                evidence: 'Rekapitulasi daftar nama guru pengampu kelas/mata pelajaran beserta buku pegangan guru yang digunakan dalam pembelajaran.',
+                docName: 'DAFTAR GURU DAN BUKU YANG DIGUNAKAN(1).pdf',
+                driveUrl: 'https://drive.google.com/file/d/1l2y0YkdwacgR1iTRUL_0J4pcpcmyaf0P/view?usp=drivesdk',
+                previewUrl: 'https://drive.google.com/file/d/1l2y0YkdwacgR1iTRUL_0J4pcpcmyaf0P/preview',
+                isIndexedPdf: true,
+                indexedSummary: 'Menyajikan pemetaan nama guru MI Tarbiyatul Ulum Tirtomoyo beserta rincian judul buku panduan/teks pembelajaran yang digunakan pada masing-masing kelas dan mata pelajaran.'
+            },
+            {
+                code: 'D.5',
+                aspect: 'D',
+                aspectName: 'Penyediaan Sarana Pembelajaran & Penggunaannya',
+                title: 'Rasio Kepemilikan Buku Teks Siswa (Kurikulum Merdeka & KMA 2019)',
+                evidence: 'Rekapitulasi ketersediaan buku teks siswa (versi cetak maupun digital) untuk Kurikulum Merdeka dan PAI/Bahasa Arab KMA 2019 Kelas 1–6 Tahun 2026.',
+                docName: 'DAFTAR REKAPITULASI BUKU TEKS SISWA(1).pdf',
+                driveUrl: 'https://drive.google.com/file/d/1yHzNyxUolAI2ZmUeAhLLlkT6Kcg1173s/view?usp=drivesdk',
+                previewUrl: 'https://drive.google.com/file/d/1yHzNyxUolAI2ZmUeAhLLlkT6Kcg1173s/preview',
+                isIndexedPdf: true,
+                indexedSummary: 'Rekapitulasi kepemilikan buku teks peserta didik Kelas 1 s.d. 6 Tahun 2026 untuk mapel umum Kurikulum Merdeka dan mapel Agama/Bahasa Arab KMA 2019 (format cetak & digital).'
+            }
+        ];
+
+        // =========================================================================
+        // 2. STATE MANAGEMENT (LOCALSTORAGE)
+        // =========================================================================
+        const STORAGE_KEY = 'mi_tu_tirtomoyo_edm_verification_2026';
+        const SUPERVISOR_KEY = 'mi_tu_tirtomoyo_supervisor_name_2026';
+
+        let verificationState = {};
+        let currentAspectFilter = 'ALL';
+        let activeModalCode = null;
+        let tempModalStatus = 'PENDING';
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                verificationState = saved ? JSON.parse(saved) : {};
+                const savedSupervisor = localStorage.getItem(SUPERVISOR_KEY) || '';
+                document.getElementById('supervisorNameInput').value = savedSupervisor;
+            } catch (e) {
+                verificationState = {};
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(verificationState));
+            } catch (e) {
+                console.error('Gagal menyimpan ke localStorage', e);
+            }
+            updateDashboardStats();
+        }
+
+        document.getElementById('supervisorNameInput').addEventListener('input', (e) => {
+            localStorage.setItem(SUPERVISOR_KEY, e.target.value);
+        });
+
+        function getItemVerification(code) {
+            return verificationState[code] || { status: 'PENDING', note: '', updatedAt: null };
+        }
+
+        // =========================================================================
+        // 3. RENDER KOMPONEN UTAMA
+        // =========================================================================
+        function renderAspectFolders() {
+            const container = document.getElementById('aspectFolderCards');
+            const colorMap = {
+                emerald: { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', badge: 'bg-emerald-600 text-white' },
+                blue: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', badge: 'bg-blue-600 text-white' },
+                violet: { bg: 'bg-violet-50', text: 'text-violet-700', border: 'border-violet-200', badge: 'bg-violet-600 text-white' },
+                amber: { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', badge: 'bg-amber-600 text-white' }
+            };
+
+            container.innerHTML = ASPECT_FOLDERS.map(folder => {
+                const theme = colorMap[folder.color];
+                const aspectItems = EDM_INSTRUMENTS.filter(i => i.aspect === folder.id);
+                const verifiedCount = aspectItems.filter(i => getItemVerification(i.code).status === 'VERIFIED').length;
+
+                return `
+                <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-300 transition flex flex-col justify-between group">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-extrabold ${theme.badge}">${folder.code}</span>
+                            <span class="text-xs font-semibold text-slate-500">${verifiedCount}/${aspectItems.length} Terverifikasi</span>
+                        </div>
+                        <h3 class="font-display font-bold text-sm text-slate-900 group-hover:text-emerald-700 transition">
+                            ${folder.title}
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">${folder.range}</p>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <button onclick="setAspectFilter('${folder.id}'); document.getElementById('instrumentsContainer').scrollIntoView({behavior:'smooth'});" 
+                            class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1">
+                            <span>Filter Butir</span>
+                            <i data-lucide="arrow-down-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <a href="${folder.driveUrl}" target="_blank" rel="noopener noreferrer" 
+                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold ${theme.bg} ${theme.text} hover:opacity-80 transition">
+                            <i data-lucide="folder" class="w-3.5 h-3.5"></i>
+                            <span>Buka Folder</span>
+                        </a>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function renderIndexedHighlights() {
+            const container = document.getElementById('indexedDocsHighlight');
+            const indexedDocs = EDM_INSTRUMENTS.filter(item => item.isIndexedPdf);
+
+            container.innerHTML = indexedDocs.map(doc => {
+                const v = getItemVerification(doc.code);
+                const statusBadge = v.status === 'VERIFIED'
+                    ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">Terverifikasi</span>`
+                    : v.status === 'REVISION'
+                    ? `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">Ada Catatan</span>`
+                    : `<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">Siap Telaah</span>`;
+
+                return `
+                <div class="bg-white rounded-xl p-4 border border-emerald-200/80 shadow-sm hover:shadow transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-emerald-700 text-white font-display font-bold text-xs">
+                                ${doc.code}
+                            </span>
+                            ${statusBadge}
+                        </div>
+                        <h4 class="font-semibold text-xs sm:text-sm text-slate-900 line-clamp-1" title="${doc.docName}">
+                            ${doc.docName}
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-1 line-clamp-2">
+                            ${doc.title}
+                        </p>
+                    </div>
+                    <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center gap-2">
+                        <button onclick="openPreviewModal('${doc.code}')" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition">
+                            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                            <span>Pratinjau &amp; Verifikasi</span>
+                        </button>
+                        <a href="${doc.driveUrl}" target="_blank" rel="noopener noreferrer" class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600" title="Buka file di tab baru">
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function setAspectFilter(aspect) {
+            currentAspectFilter = aspect;
+            document.querySelectorAll('.aspect-tab').forEach(btn => {
+                if (btn.dataset.aspect === aspect) {
+                    btn.className = 'aspect-tab active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-700 text-white shadow-sm';
+                } else {
+                    btn.className = 'aspect-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-white text-slate-700 hover:bg-slate-100 border border-slate-200';
+                }
+            });
+            renderInstruments();
+        }
+
+        function renderInstruments() {
+            const container = document.getElementById('instrumentsContainer');
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            const filtered = EDM_INSTRUMENTS.filter(item => {
+                const v = getItemVerification(item.code);
+                const matchAspect = currentAspectFilter === 'ALL' || item.aspect === currentAspectFilter;
+                const matchStatus = statusFilter === 'ALL' || v.status === statusFilter;
+                const matchSearch = !searchQuery ||
+                    item.code.toLowerCase().includes(searchQuery) ||
+                    item.title.toLowerCase().includes(searchQuery) ||
+                    item.evidence.toLowerCase().includes(searchQuery) ||
+                    item.docName.toLowerCase().includes(searchQuery) ||
+                    item.indexedSummary.toLowerCase().includes(searchQuery) ||
+                    (v.note && v.note.toLowerCase().includes(searchQuery));
+
+                return matchAspect && matchStatus && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                <div class="p-12 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+                        <i data-lucide="search-x" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-slate-800">Tidak ada butir instrumen yang cocok</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">Coba ubah kata kunci pencarian atau filter status verifikasi.</p>
+                </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => {
+                const v = getItemVerification(item.code);
+
+                let statusBadge = '';
+                if (v.status === 'VERIFIED') {
+                    statusBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Terverifikasi Sesuai</span>`;
+                } else if (v.status === 'REVISION') {
+                    statusBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Perlu Catatan</span>`;
+                } else {
+                    statusBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Siap Diperiksa</span>`;
+                }
+
+                const docBadge = item.isIndexedPdf
+                    ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200"><i data-lucide="file-text" class="w-3 h-3"></i> PDF Terindeks</span>`
+                    : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-600"><i data-lucide="folder" class="w-3 h-3"></i> Folder Drive</span>`;
+
+                const noteBanner = v.note
+                    ? `<div class="mt-2.5 p-2.5 rounded-xl bg-amber-50/80 border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2">
+                        <i data-lucide="message-square-quote" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+                        <div><strong class="font-semibold">Catatan Pengawas:</strong> ${escapeHtml(v.note)}</div>
+                       </div>`
+                    : '';
+
+                return `
+                <div class="p-4 sm:p-5 hover:bg-slate-50/80 transition">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <!-- Info Kiri -->
+                        <div class="space-y-1.5 flex-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-emerald-900 text-white font-display font-bold text-xs">
+                                    ${item.code}
+                                </span>
+                                <span class="text-xs font-semibold text-slate-500">${item.aspectName}</span>
+                                ${docBadge}
+                            </div>
+                            <h3 class="font-display font-bold text-sm sm:text-base text-slate-900">
+                                ${item.title}
+                            </h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                <span class="font-medium text-slate-700">Bukti Fisik:</span> ${item.evidence}
+                            </p>
+                            <div class="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                                <span class="inline-flex items-center gap-1 font-medium text-emerald-700">
+                                    <i data-lucide="paperclip" class="w-3.5 h-3.5"></i>
+                                    ${item.docName}
+                                </span>
+                            </div>
+                            ${noteBanner}
+                        </div>
+
+                        <!-- Aksi & Status Pengawas Kanan -->
+                        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+                            ${statusBadge}
+
+                            <!-- Quick Check Button -->
+                            <button onclick="quickToggleVerify('${item.code}')" 
+                                class="p-2 rounded-xl border ${v.status === 'VERIFIED' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-600 border-slate-200 hover:border-emerald-500 hover:text-emerald-600'} transition" 
+                                title="Tandai Cepat Terverifikasi / Batal">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- Pratinjau Modal Button -->
+                            <button onclick="openPreviewModal('${item.code}')" 
+                                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm transition">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                <span>${item.isIndexedPdf ? 'Pratinjau PDF' : 'Pratinjau Folder'}</span>
+                            </button>
+
+                            <!-- Direct Drive Link -->
+                            <a href="${item.driveUrl}" target="_blank" rel="noopener noreferrer" 
+                                class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition"
+                                title="Buka langsung di Google Drive">
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                <span class="hidden sm:inline">Drive</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function updateDashboardStats() {
+            const total = EDM_INSTRUMENTS.length;
+            const indexed = EDM_INSTRUMENTS.filter(i => i.isIndexedPdf).length;
+            let verified = 0;
+            let revision = 0;
+
+            EDM_INSTRUMENTS.forEach(item => {
+                const st = getItemVerification(item.code).status;
+                if (st === 'VERIFIED') verified++;
+                if (st === 'REVISION') revision++;
+            });
+
+            const percent = Math.round((verified / total) * 100);
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statIndexed').textContent = indexed;
+            document.getElementById('statVerified').textContent = verified;
+            document.getElementById('statVerifiedPercent').textContent = `${percent}%`;
+            document.getElementById('statProgressBar').style.width = `${percent}%`;
+            document.getElementById('statRevision').textContent = revision;
+
+            renderAspectFolders();
+            renderIndexedHighlights();
+            renderInstruments();
+        }
+
+        // =========================================================================
+        // 4. MODAL PRATINJAU & PANEL VERIFIKASI PENGAWAS
+        // =========================================================================
+        function openPreviewModal(code) {
+            const item = EDM_INSTRUMENTS.find(i => i.code === code);
+            if (!item) return;
+
+            activeModalCode = code;
+            const v = getItemVerification(code);
+            tempModalStatus = v.status;
+
+            document.getElementById('modalCodeBadge').textContent = item.code;
+            document.getElementById('modalTitle').textContent = `${item.docName} — ${item.title}`;
+            document.getElementById('modalSubtitle').textContent = `Aspek ${item.aspect}: ${item.aspectName}`;
+            document.getElementById('modalExternalLink').href = item.driveUrl;
+            document.getElementById('modalEvidenceDesc').textContent = item.evidence;
+            document.getElementById('modalIndexedSummary').textContent = item.indexedSummary;
+            document.getElementById('modalNoteTextarea').value = v.note || '';
+
+            const iframe = document.getElementById('drivePreviewIframe');
+            iframe.src = item.previewUrl;
+
+            updateModalStatusButtons();
+
+            document.getElementById('previewModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            lucide.createIcons();
+        }
+
+        function closePreviewModal() {
+            document.getElementById('previewModal').classList.add('hidden');
+            document.getElementById('drivePreviewIframe').src = '';
+            document.body.classList.remove('overflow-hidden');
+            activeModalCode = null;
+        }
+
+        function setModalStatus(status) {
+            tempModalStatus = status;
+            updateModalStatusButtons();
+        }
+
+        function updateModalStatusButtons() {
+            const btnVerified = document.getElementById('btnStatusVerified');
+            const btnRevision = document.getElementById('btnStatusRevision');
+            const btnPending = document.getElementById('btnStatusPending');
+
+            // Reset classes
+            btnVerified.className = 'status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition border-slate-200 text-slate-700 hover:bg-slate-50';
+            btnRevision.className = 'status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition border-slate-200 text-slate-700 hover:bg-slate-50';
+            btnPending.className = 'status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition border-slate-200 text-slate-700 hover:bg-slate-50';
+
+            if (tempModalStatus === 'VERIFIED') {
+                btnVerified.className = 'status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border-2 text-xs font-bold transition border-emerald-600 bg-emerald-50 text-emerald-900';
+            } else if (tempModalStatus === 'REVISION') {
+                btnRevision.className = 'status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border-2 text-xs font-bold transition border-amber-500 bg-amber-50 text-amber-900';
+            } else {
+                btnPending.className = 'status-choice flex items-center justify-between px-3.5 py-2.5 rounded-xl border-2 text-xs font-bold transition border-slate-600 bg-slate-100 text-slate-900';
+            }
+        }
+
+        function saveModalVerification() {
+            if (!activeModalCode) return;
+            const noteText = document.getElementById('modalNoteTextarea').value.trim();
+
+            verificationState[activeModalCode] = {
+                status: tempModalStatus,
+                note: noteText,
+                updatedAt: new Date().toISOString()
+            };
+
+            saveState();
+            showToast(`Hasil verifikasi butir ${activeModalCode} berhasil disimpan.`);
+            closePreviewModal();
+        }
+
+        function quickToggleVerify(code) {
+            const current = getItemVerification(code);
+            const nextStatus = current.status === 'VERIFIED' ? 'PENDING' : 'VERIFIED';
+
+            verificationState[code] = {
+                status: nextStatus,
+                note: current.note || '',
+                updatedAt: new Date().toISOString()
+            };
+
+            saveState();
+            showToast(
+                nextStatus === 'VERIFIED'
+                    ? `Butir ${code} ditandai Terverifikasi Sesuai.`
+                    : `Status butir ${code} dikembalikan ke Siap Diperiksa.`
+            );
+        }
+
+        function resetAllVerification() {
+            verificationState = {};
+            saveState();
+            showToast('Seluruh checklist dan catatan verifikasi telah diatur ulang.');
+        }
+
+        // =========================================================================
+        // 5. MODAL CETAK BERITA ACARA / LAPORAN SUPERVISI
+        // =========================================================================
+        function openPrintReportModal() {
+            const supervisorName = document.getElementById('supervisorNameInput').value.trim() || '............................................';
+            const todayFormatted = new Date().toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+            let verifiedCount = 0;
+            EDM_INSTRUMENTS.forEach(item => {
+                if (getItemVerification(item.code).status === 'VERIFIED') verifiedCount++;
+            });
+
+            document.getElementById('reportSupervisorName').textContent = supervisorName;
+            document.getElementById('reportSignSupervisor').textContent = supervisorName;
+            document.getElementById('reportDate').textContent = todayFormatted;
+            document.getElementById('reportSignDate').textContent = todayFormatted;
+            document.getElementById('reportSummaryStats').textContent = `${verifiedCount} dari ${EDM_INSTRUMENTS.length} Indikator Terverifikasi`;
+
+            const tbody = document.getElementById('reportTableBody');
+            tbody.innerHTML = EDM_INSTRUMENTS.map(item => {
+                const v = getItemVerification(item.code);
+                let statusLabel = 'Belum Diperiksa';
+                let statusClass = 'text-slate-500';
+                if (v.status === 'VERIFIED') {
+                    statusLabel = 'Terverifikasi Sesuai';
+                    statusClass = 'font-bold text-emerald-800';
+                } else if (v.status === 'REVISION') {
+                    statusLabel = 'Perlu Catatan / Revisi';
+                    statusClass = 'font-bold text-amber-800';
+                }
+
+                return `
+                <tr>
+                    <td class="border border-slate-300 px-2.5 py-1.5 font-bold text-center">${item.code}</td>
+                    <td class="border border-slate-300 px-2.5 py-1.5">
+                        <div class="font-semibold">${item.title}</div>
+                        <div class="text-[11px] text-slate-600">Dokumen: ${item.docName}</div>
+                    </td>
+                    <td class="border border-slate-300 px-2.5 py-1.5 ${statusClass}">${statusLabel}</td>
+                    <td class="border border-slate-300 px-2.5 py-1.5 text-slate-700">${v.note ? escapeHtml(v.note) : '-'}</td>
+                </tr>
+                `;
+            }).join('');
+
+            document.getElementById('printReportModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            lucide.createIcons();
+        }
+
+        function closePrintReportModal() {
+            document.getElementById('printReportModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // =========================================================================
+        // 6. UTILITIES (TOAST & ESCAPE HTML)
+        // =========================================================================
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-medium shadow-lg border border-slate-700 transition-all duration-300 transform translate-y-2 opacity-0';
+            toast.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i><span>${escapeHtml(message)}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Keyboard shortcut ESC untuk menutup modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePreviewModal();
+                closePrintReportModal();
+            }
+        });
+
+        // Inisialisasi Aplikasi
+        window.addEventListener('DOMContentLoaded', () => {
+            loadState();
+            updateDashboardStats();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
